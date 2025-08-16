@@ -11,6 +11,7 @@ local state = {
     buf = -1,
     win = -1,
   },
+  shown = false,
 }
 
 local function create_floating_window(opts)
@@ -37,8 +38,8 @@ local function create_floating_window(opts)
     height = height,
     col = col,
     row = row,
-    -- style = 'minimal', -- No borders or extra UI elements
-    border = 'rounded',
+    style = 'minimal', -- No borders or extra UI elements
+    border = 'double',
   }
 
   local win = vim.api.nvim_open_win(buf, true, win_config)
@@ -52,13 +53,19 @@ function M.toggle_terminal()
     if vim.bo[state.floating.buf].buftype ~= 'terminal' then
       vim.cmd.terminal()
     end
+    -- Enter INSERT
+    vim.cmd 'normal i'
+    state.shown = true
   else
     vim.api.nvim_win_hide(state.floating.win)
+    state.shown = not state.shown
+    if state.shown then
+      vim.cmd 'normal i'
+    end
   end
-  vim.cmd 'normal i'
 end
 
 vim.api.nvim_create_user_command('Floatt', M.toggle_terminal, {})
 vim.keymap.set('n', '<leader>z', M.toggle_terminal, { desc = 'Toggle floating terminal' })
 
-return M
+return {}

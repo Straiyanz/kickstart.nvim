@@ -1,10 +1,12 @@
 return {
   'ThePrimeagen/harpoon',
   branch = 'harpoon2',
+  dependencies = { 'nvim-lua/plenary.nvim' },
   config = function()
     local harpoon = require 'harpoon'
     ---@diagnostic disable-next-line: missing-parameter
     harpoon:setup()
+    require('telescope').load_extension 'harpoon'
 
     local function map(lhs, rhs, opts)
       vim.keymap.set('n', lhs, rhs, opts or {})
