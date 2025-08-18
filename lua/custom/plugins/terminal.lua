@@ -54,12 +54,14 @@ function M.toggle_terminal()
       vim.cmd.terminal()
     end
     -- Enter INSERT
+    vim.cmd 'wa'
     vim.cmd 'normal i'
     state.shown = true
   else
     vim.api.nvim_win_hide(state.floating.win)
     state.shown = not state.shown
     if state.shown then
+      vim.cmd 'wa'
       vim.cmd 'normal i'
     end
   end
