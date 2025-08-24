@@ -158,6 +158,9 @@ vim.o.inccommand = 'split'
 -- Show which line your cursor is on
 vim.o.cursorline = true
 
+-- Tabstop
+vim.o.tabstop = 4
+
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 15
 
@@ -252,7 +255,7 @@ require('lazy').setup({
     config = function()
       require('guess-indent').setup {
         on_tab_options = {
-          ['expandtab'] = true,
+          ['expandtab'] = false,
           ['tabstop'] = 4,
           ['shiftwidth'] = 4,
         },
