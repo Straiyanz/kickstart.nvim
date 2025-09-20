@@ -169,6 +169,9 @@ vim.o.scrolloff = 15
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- Add winborder so that I can fucking see things...
+vim.o.winborder = 'single'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -646,6 +649,14 @@ require('lazy').setup({
         end,
       })
 
+      -- LSP 'K' hover details
+      vim.lsp.buf.hover {
+        border = 'rounded',
+        max_height = 20,
+        max_width = 130,
+        close_events = { 'CursorMoved', 'BufLeave', 'WinLeave', 'LSPDetach' },
+      }
+
       -- Diagnostic Config
       -- See :help vim.diagnostic.Opts
       vim.diagnostic.config {
@@ -910,11 +921,80 @@ require('lazy').setup({
     config = function()
       ---@diagnostic disable-next-line: missing-fields
       require('material').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
+        -- This is most of the setup with default values.
+        contrast = {
+          terminal = false, -- Enable contrast for the built-in terminal
+          sidebars = false, -- Enable contrast for sidebar-like windows ( for example Nvim-Tree )
+          floating_windows = false, -- Enable contrast for floating windows
+          cursor_line = false, -- Enable darker background for the cursor line
+          lsp_virtual_text = true, -- Enable contrasted background for lsp virtual text
+          non_current_windows = false, -- Enable contrasted background for non-current windows
+          filetypes = {}, -- Specify which filetypes get the contrasted (darker) background
         },
-      }
+        styles = { -- Give comments style such as bold, italic, underline etc.
+          comments = { --[[ italic = true ]]
+          },
+          strings = { --[[ bold = true ]]
+          },
+          keywords = { --[[ underline = true ]]
+          },
+          functions = { --[[ bold = true, undercurl = true ]]
+          },
+          variables = {},
+          operators = {},
+          types = {},
+        },
 
+        plugins = { -- Uncomment the plugins that you use to highlight them
+          -- Available plugins:
+          -- "blink",
+          -- "coc",
+          -- "colorful-winsep",
+          -- "dap",
+          -- "dashboard",
+          -- "eyeliner",
+          -- "fidget",
+          -- "flash",
+          -- "gitsigns",
+          'harpoon',
+          -- "hop",
+          -- "illuminate",
+          -- "indent-blankline",
+          -- "lspsaga",
+          -- "mini",
+          'neo-tree',
+          -- "neogit",
+          -- "neorg",
+          -- "neotest",
+          -- "noice",
+          -- "nvim-cmp",
+          -- "nvim-navic",
+          -- "nvim-notify",
+          'nvim-tree',
+          -- "nvim-web-devicons",
+          -- "rainbow-delimiters",
+          -- "sneak",
+          'telescope',
+          -- "trouble",
+          -- "which-key",
+        },
+
+        disable = {
+          colored_cursor = false, -- Disable the colored cursor
+          borders = false, -- Disable borders between vertically split windows
+          background = false, -- Prevent the theme from setting the background (NeoVim then uses your terminal background)
+          term_colors = false, -- Prevent the theme from setting terminal colors
+          eob_lines = false, -- Hide the end-of-buffer lines
+        },
+
+        high_visibility = {
+          lighter = false, -- Enable higher contrast text for lighter style
+          darker = false, -- Enable higher contrast text for darker style
+        },
+
+        lualine_style = 'stealth', -- Lualine style ( can be 'stealth' or 'default' )
+        async_loading = true, -- Load parts of the theme asynchronously for faster startup (turned on by default)
+      }
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
